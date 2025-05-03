@@ -66,7 +66,7 @@ document.querySelectorAll('.js-add-to-cart')
     buttonElement.addEventListener('click', () => {
       const productId = buttonElement.dataset.productId;
 
-      //Checking if the product is in the array
+      //Checking if the product is in the cart
       let matchingItem;
 
       cart.forEach((item) => {
@@ -85,6 +85,15 @@ document.querySelectorAll('.js-add-to-cart')
         }
       );
       }
-      console.log(cart);
+
+      //Finding the amount of items in the cart
+      let cartQuantity = 0;
+
+      cart.forEach((item) => {
+        cartQuantity += item.quantity;
+      });
+
+      document.querySelector('.js-cart-quantity')
+        .innerHTML = cartQuantity;
     })
   })
