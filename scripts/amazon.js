@@ -42,7 +42,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -66,8 +66,9 @@ document.querySelectorAll('.js-add-to-cart')
     buttonElement.addEventListener('click', () => {
       const productId = buttonElement.dataset.productId;
 
-      const quantity = document.querySelector(`.js-quantity-selector-${productId}`)
-        .value;
+      //Getting the quantity of items to add from the select tag
+      const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`)
+        .value);
 
       //Checking if the product is in the cart
       let matchingItem;
@@ -79,14 +80,9 @@ document.querySelectorAll('.js-add-to-cart')
       });
 
       if(matchingItem){
-        matchingItem.quantity += Number(quantity);
+        matchingItem.quantity += quantity;
       }else{
-      cart.push(
-        {
-          productId: productId , 
-          quantity: Number(quantity)
-        }
-      );
+      cart.push({productId, quantity});
       }
 
       //Finding the amount of items in the cart
@@ -98,5 +94,21 @@ document.querySelectorAll('.js-add-to-cart')
 
       document.querySelector('.js-cart-quantity')
         .innerHTML = cartQuantity;
+
+      //Adding the 'Added' notification
+      const addedToCartElement = document.querySelector(`.js-added-to-cart-${productId}`);
+      addedToCartElement.classList.add('added-to-cart-visible');
+
+      setAddedTimer(addedToCartElement);
     })
   })
+
+//This function enables the Added notification to disappear after two seconds
+let setTimeoutId;
+function setAddedTimer(addedToCartElement){
+  clearTimeout(setTimeoutId);
+
+  setTimeoutId = setTimeout(() => {
+    addedToCartElement.classList.remove('added-to-cart-visible');
+  }, 2000);
+}
