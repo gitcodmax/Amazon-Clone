@@ -1,6 +1,9 @@
 import { cart, addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
+import { calculateCartQuantity } from "../data/cart.js";
+
+updateCartQuantity();
 
 let productsHTML = '';
 
@@ -59,23 +62,15 @@ products.forEach((product) => {
   `;
 })
 
-
 //To display the products in the amazon home page
 document.querySelector('.js-products-grid')
-  .innerHTML = productsHTML;
-
+.innerHTML = productsHTML;
 
 //Update the quantity of items in the cart
 function updateCartQuantity(){
-  //Finding the amount of items in the cart
-  let cartQuantity = 0;
-
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
-
+  const cartQuantity = calculateCartQuantity();
   document.querySelector('.js-cart-quantity')
-    .innerHTML = cartQuantity;
+  .innerHTML = cartQuantity;
 }
 
 //This function enables the Added notification to disappear after two seconds
