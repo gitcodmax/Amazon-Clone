@@ -1,4 +1,9 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart;
+
+loadFromStorage();
+
+export function loadFromStorage(){
+  cart = JSON.parse(localStorage.getItem('cart'));
 
 if(!cart){
   cart = [
@@ -14,16 +19,14 @@ if(!cart){
     }
   ];
 }
+}
 
 function saveToStorage(){
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 //Adding an item to the cart
-export function addToCart(productId){
-  //Getting the quantity of items to add from the select tag
-  const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`)
-  .value);
+export function addToCart(productId, quantity){
 
   //Check if item is in the cart already
   let matchingItem;
@@ -37,7 +40,6 @@ export function addToCart(productId){
   if(matchingItem){
     matchingItem.quantity += quantity;
   }else{
-  //cart.push({productId, quantity, deliveryOptionId});
   cart.push(
     {
       productId: productId, 

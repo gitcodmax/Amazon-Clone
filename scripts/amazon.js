@@ -91,7 +91,10 @@ document.querySelectorAll('.js-add-to-cart')
   .forEach((buttonElement) => {
     buttonElement.addEventListener('click', () => {
       const productId = buttonElement.dataset.productId;
-      addToCart(productId);
+        //Getting the quantity of items to add from the select tag
+        const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`)
+        .value);
+      addToCart(productId, quantity);
       updateCartQuantity();
       setAddedTimer(productId);
     })

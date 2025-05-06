@@ -131,6 +131,8 @@ export function renderOrderSummary(){
         inputElement.addEventListener('keydown', (event) => {
           if(event.key === 'Enter'){
             handleQuantityInput(inputElement, productId);
+            renderPaymentSummary();
+            renderOrderSummary();
           }
         })
       })
