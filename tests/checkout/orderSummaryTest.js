@@ -1,6 +1,6 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 import { renderCheckoutHeader } from "../../scripts/checkout/checkoutHeader.js";
-import {loadFromStorage, cart} from '../../data/cart.js';
+import {cart} from '../../data/cart-class.js';
 
 describe('test suite: renderOrderSummary', () => {
   const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
@@ -18,21 +18,18 @@ describe('test suite: renderOrderSummary', () => {
     `;
 
     //Create a mock of localStorage getItem() to work with specific values and not values in the localStorage
-    spyOn(localStorage, 'getItem').and.callFake(() => {
-      return JSON.stringify([
-        {
-          productId: productId1, 
-          quantity: 2, 
-          deliveryOptionId: '1'
-        }, 
-        {
-          productId: productId2, 
-          quantity: 1, 
-          deliveryOptionId: '2'
-        }
-      ]);
-    });
-    loadFromStorage();
+    cart.cartItems = [
+      {
+        productId: productId1, 
+        quantity: 2, 
+        deliveryOptionId: '1'
+      }, 
+      {
+        productId: productId2, 
+        quantity: 1, 
+        deliveryOptionId: '2'
+      }
+    ]
 
     renderCheckoutHeader();
     renderOrderSummary();
@@ -78,8 +75,8 @@ describe('test suite: renderOrderSummary', () => {
     expect(
       document.querySelector(`.js-cart-item-container-${productId2}`)
     ).not.toEqual(null);
-    expect(cart.length).toEqual(1);
-    expect(cart[0].productId).toEqual(productId2);
+    expect(cart.cartItems.length).toEqual(1);
+    expect(cart.cartItems[0].productId).toEqual(productId2);
     expect(
       document.querySelector(`.js-product-name-${productId2}`).innerText
     ).toEqual('Intermediate Size Basketball');
@@ -89,15 +86,15 @@ describe('test suite: renderOrderSummary', () => {
   });
 
   it('updates the delivery option', () => {
-    document.querySelector(`.js-product-id-${productId1}-delivery-option-id-${(cart[0].deliveryOptionId = '3')}`).click();
+    document.querySelector(`.js-product-id-${productId1}-delivery-option-id-${(cart.cartItems[0].deliveryOptionId = '3')}`).click();
     expect(
-      document.querySelector(`.js-input-product-id-${productId1}-delivery-option-id-${(cart[0].deliveryOptionId = '3')}`).checked
+      document.querySelector(`.js-input-product-id-${productId1}-delivery-option-id-${(cart.cartItems[0].deliveryOptionId = '3')}`).checked
     ).toEqual(true);
     expect(
-      cart.length
+      cart.cartItems.length
     ).toEqual(2);
     expect(
-      cart[0]
+      cart.cartItems[0]
     ).toEqual(
       {
         productId: productId1, 

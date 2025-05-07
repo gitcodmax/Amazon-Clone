@@ -12,7 +12,7 @@ export function getProduct(productId){
   return matchingProduct;
 }
 
-class Product{
+export class Product{
   id;
   image;
   name;
@@ -38,7 +38,7 @@ class Product{
   }
 }
 
-class Clothing extends Product{
+export class Clothing extends Product{
   sizeChartLink;
 
   constructor(productDetails){
@@ -50,6 +50,28 @@ class Clothing extends Product{
     return `
     <a href="${this.sizeChartLink}" target="_blank">
       Size chart
+    </a>
+    `;
+  }
+}
+
+export class Appliance extends Product{
+  instructionsLink;
+  warrantyLink;
+
+  constructor(productDetails){
+    super(productDetails);
+    this.instructionsLink = productDetails.instructionsLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
+
+  extraInfoHTML(){
+    return `
+    <a href="${this.instructionsLink}" target="_blank">
+      Instructions
+    </a>
+    <a href="${this.warrantyLink}" target="_blank">
+      Warranty
     </a>
     `;
   }
@@ -111,6 +133,9 @@ export const products = [
       count: 2197
     },
     priceCents: 1899,
+    type: "appliance",
+    instructionsLink: "images/appliance-instructions.png", 
+    warrantyLink: "images/appliance-warranty.png",
     keywords: [
       "toaster",
       "kitchen",
@@ -155,6 +180,7 @@ export const products = [
       count: 317
     },
     priceCents: 2400,
+    type: "clothing",
     keywords: [
       "hoodies",
       "sweaters",
@@ -216,6 +242,7 @@ export const products = [
       count: 235
     },
     priceCents: 2070,
+    type: "clothing",
     keywords: [
       "robe",
       "swimsuit",
@@ -296,6 +323,7 @@ export const products = [
       count: 846
     },
     priceCents: 3074,
+    type: "appliance",
     keywords: [
       "water boiler",
       "appliances",
@@ -717,6 +745,8 @@ export const products = [
 ].map((productDetails) => {
   if(productDetails.type === 'clothing'){
     return new Clothing(productDetails);
+  }else if(productDetails.type === 'appliance'){
+    return new Appliance(productDetails);
   }
   return new Product(productDetails);
 });
