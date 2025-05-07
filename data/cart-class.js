@@ -2,16 +2,16 @@ import { getDeliveryOption } from "./deliveryOptions.js";
 
 class Cart{
   cartItems;//undefined
-  localStorageKey;//undefined
+  #localStorageKey;//undefined and private
 
   //Constructor is called anytime the object is created
   constructor(localStorageKey){
-    this.localStorageKey = localStorageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage();
   }
 
-  loadFromStorage(){//Shorthand for loadFromStorage : function(){
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+  #loadFromStorage(){//Shorthand for loadFromStorage : function(){
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
   
     if(!this.cartItems){
       this.cartItems = [
@@ -30,7 +30,7 @@ class Cart{
   }
 
   saveToStorage(){
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
   //Adding an item to the cart
