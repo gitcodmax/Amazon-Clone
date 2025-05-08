@@ -1,10 +1,17 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 import { renderCheckoutHeader } from "../../scripts/checkout/checkoutHeader.js";
 import {cart} from '../../data/cart-class.js';
+import { loadProducts } from "../../data/products.js";
 
 describe('test suite: renderOrderSummary', () => {
   const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
   const productId2 = "15b6fc6f-327a-4ec4-896f-486349e85a3d";
+
+  beforeAll((done) => {
+    loadProducts(() => {
+      done();//done() is provided by jasmine to control when to go to the next step,ie., in tis case ensure that the products have been loaded from backend.
+    });
+  });
 
   beforeEach(() => {
     //Create a mock of localStorage setItem() to avoid saving the items used for testing in the localStorage
