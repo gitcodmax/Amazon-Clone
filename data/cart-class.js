@@ -118,7 +118,11 @@ class Cart{
     this.saveToStorage();
   }
 
+  resetCart(){
+    this.cartItems = [];
+    this.saveToStorage();
+  }
+
 }
 
 export const cart = new Cart('cart-oop');
-//const businessCart = new Cart('cart-business');
